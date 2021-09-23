@@ -6,5 +6,11 @@
     {
       "plan": "heroku-redis:hobby-dev"
     }
-  ]
+  ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "Key used to protect the POST endpoint",
+      "value": ""
+    }
+  }
 }
