@@ -10,7 +10,7 @@ COVERAGE_COLORS = {
   (21..40) => :orange,
   (41..60) => :yellow,
   (61..80) => :yellowgreen,
-  (81..100) => :brightgreen
+  (81..1000) => :brightgreen
 }.freeze
 
 post '/coverage/:username/:repo' do
