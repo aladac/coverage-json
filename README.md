@@ -27,5 +27,5 @@ Only one value is gotten from the `coverage.json` which is the total coverage
 Go to https://shields.io/endpoint and create you badge. The URL should look like this:
 
 ```
-https://img.shields.io/endpoint?url=https://coverage-json.herokuapp.com/coverage/aladac/coverage-json.json
+https://img.shields.io/endpoint?url=https://your-app-name.herokuapp.com/coverage/aaa/bbb.json
 ```
