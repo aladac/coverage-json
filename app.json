@@ -1,8 +1,10 @@
 {
+  "name": "shield.io json payload webhook",
+  "description": "A service to store coverage information in Redis and generate json file compatibile with shield.io endpoint",
+  "repository": "https://github.com/aladac/coverage-json",
   "addons": [
     {
       "plan": "heroku-redis:hobby-dev"
     }
   ]
 }
-
