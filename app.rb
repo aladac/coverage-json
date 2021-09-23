@@ -18,7 +18,8 @@ post '/coverage/:username/:repo' do
 
   json = JSON.parse(request.body.read)
   coverage = json['metrics']['covered_percent']
-  redis.hset params[:username], params[:repo], coverage.to_i
+
+  redis.hset params[:username], params[:repo], coverage
   200
 rescue JSON::ParserError
   422
