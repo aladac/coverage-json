@@ -25,7 +25,7 @@ rescue JSON::ParserError
 end
 
 get '/coverage/:username/:repo.json' do
-  coverage = redis.hget params[:username], params[:repo]
+  coverage = redis.hget(params[:username], params[:repo]).to_i
   json = {
     "schemaVersion": 1,
     "label": 'Coverage',
