@@ -6,11 +6,11 @@ Bundler.require
 post '/coverage' do
   json = JSON.parse(request.body.read)
   coverage = json['metrics']['covered_percent']
-  Redis.new.set :coverage, coverage.to_i
+  redis.set :coverage, coverage.to_i
 end
 
 get '/coverage.json' do
-  coverage = Redis.new.get :coverage
+  coverage = redis.get :coverage
   json = {
     "schemaVersion": 1,
     "label": "Coverage",
@@ -18,6 +18,10 @@ get '/coverage.json' do
     "color": set_color(coverage)
   }
   json.to_json
+end
+
+def redis
+  Redis.new(ENV['REDIS_URL'])
 end
 
 def set_color(coverage)
