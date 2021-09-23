@@ -5,11 +5,23 @@ require 'json'
 
 Bundler.require
 
+COVERAGE_COLORS = {
+  (0..20) => :red,
+  (21..40) => :orange,
+  (41..60) => :yellow,
+  (61..80) => :yellowgreen,
+  (81..100) => :brightgreen
+}.freeze
+
 post '/coverage/:username/:repo' do
+  return 401 unless params[:key] && (params[:key] == ENV['SECRET_KEY'])
+
   json = JSON.parse(request.body.read)
   coverage = json['metrics']['covered_percent']
   redis.hset params[:username], params[:repo], coverage.to_i
   200
+rescue JSON::ParserError
+  422
 end
 
 get '/coverage/:username/:repo.json' do
@@ -28,16 +40,7 @@ def redis
 end
 
 def color(coverage)
-  case coverage.to_i
-  when (0..20)
-    :red
-  when (21..40)
-    :orange
-  when (41..60)
-    :yellow
-  when (61..80)
-    :yellowgreen
-  when (81..100)
-    :brightgreen
+  COVERAGE_COLORS.each_pair do |range, color|
+    return color if range.include?(coverage)
   end
 end
