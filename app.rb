@@ -1,21 +1,24 @@
-require "bundler"
-require "json"
+# frozen_string_literal: true
+
+require 'bundler'
+require 'json'
 
 Bundler.require
 
-post '/coverage' do
+post '/coverage/:username/:repo' do
   json = JSON.parse(request.body.read)
   coverage = json['metrics']['covered_percent']
-  redis.set :coverage, coverage.to_i
+  redis.hset params[:username], params[:repo], coverage.to_i
+  200
 end
 
-get '/coverage.json' do
-  coverage = redis.get :coverage
+get '/coverage/:username/:repo.json' do
+  coverage = redis.hget params[:username], params[:repo]
   json = {
     "schemaVersion": 1,
-    "label": "Coverage",
+    "label": 'Coverage',
     "message": "#{coverage}%",
-    "color": set_color(coverage)
+    "color": color(coverage)
   }
   json.to_json
 end
@@ -24,7 +27,7 @@ def redis
   Redis.new(url: ENV['REDIS_URL'])
 end
 
-def set_color(coverage)
+def color(coverage)
   case coverage.to_i
   when (0..20)
     :red
