@@ -21,7 +21,7 @@ get '/coverage.json' do
 end
 
 def redis
-  Redis.new(ENV['REDIS_URL'])
+  Redis.new(url: ENV['REDIS_URL'])
 end
 
 def set_color(coverage)
